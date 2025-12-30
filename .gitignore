@@ -1,0 +1,74 @@
+# ===============================
+# Unity generated folders
+# ===============================
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+
+# ===============================
+# Unity Cache
+# ===============================
+UserSettings/
+
+# ===============================
+# Asset Store & Packages cache
+# ===============================
+/Packages/packages-lock.json
+
+# ===============================
+# Visual Studio / Rider / VSCode
+# ===============================
+.vs/
+.vscode/
+.idea/
+*.csproj
+*.sln
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+
+# ===============================
+# OS generated files
+# ===============================
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# ===============================
+# Crash reports
+# ===============================
+crashlytics-build.properties
+
+# ===============================
+# Build artifacts
+# ===============================
+*.apk
+*.aab
+*.unitypackage
+*.app
+*.exe
+*.x86
+*.x86_64
+*.zip
+*.rar
+
+# ===============================
+# Addressables
+# ===============================
+/Assets/AddressableAssetsData/*/*.bin*
+/Assets/AddressableAssetsData/*/*.hash*
+
+# ===============================
+# StreamingAssets auto-generated
+# ===============================
+/Assets/StreamingAssets/aa.meta
+/Assets/StreamingAssets/aa/*

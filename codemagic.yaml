@@ -1,0 +1,64 @@
+workflows:
+  unity-build:
+    name: Unity Build - FrostHook
+    instance_type: mac_mini_m2
+    max_build_duration: 120
+    environment:
+      unity: 6000.0.63f1
+      vars:
+        BUILD_PLATFORM: android
+      groups:
+        - unity_credentials 
+    scripts:
+      - name: Activate Unity license
+        script: |
+          echo "Activating Unity license..."
+          "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
+            -quit \
+            -logFile unity_license.log \
+            -serial $UNITY_SERIAL \
+            -username $UNITY_EMAIL \
+            -password $UNITY_PASSWORD
+
+      - name: Prepare Android keystore
+        script: |
+          echo "Decoding Android keystore..."
+          echo $CM_KEYSTORE_BASE64 | base64 --decode > FrostHook.keystore
+          export ANDROID_KEYSTORE_PATH=FrostHook.keystore
+          export ANDROID_KEYSTORE_PASSWORD=$CM_KEYSTORE_PASSWORD
+          export ANDROID_KEY_ALIAS=$CM_KEY_ALIAS
+          export ANDROID_KEY_PASSWORD=$CM_KEY_PASSWORD
+          echo "Keystore saved at $ANDROID_KEYSTORE_PATH"
+
+      - name: Build AAB
+        script: |
+          echo "Building AAB..."
+          "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
+            -quit \
+            -logFile unity_build_aab.log \
+            -projectPath . \
+            -executeMethod BuildScript.PerformBuildAAB \
+            -nographics
+
+      - name: Build APK
+        script: |
+          echo "Building APK..."
+          "$UNITY_HOME/Contents/MacOS/Unity" -batchmode \
+            -quit \
+            -logFile unity_build_apk.log \
+            -projectPath . \
+            -executeMethod BuildScript.PerformBuildAPK \
+            -nographics
+
+      - name: Return (deactivate) Unity license
+        script: |
+          echo "Returning Unity license..."
+          "$UNITY_HOME/Contents/MacOS/Unity" \
+          -batchmode -quit -returnLicense || true
+
+    artifacts:
+      - FrostHook.aab
+      - FrostHook.apk
+      - unity_build_aab.log
+      - unity_build_apk.log
+      - unity_license.log
